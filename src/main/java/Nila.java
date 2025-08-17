@@ -2,28 +2,32 @@ import java.util.Scanner;
 
 public class Nila {
     public static void main(String[] args) {
-        String horizontalLine = "____________________________________________________________";
         String name = "Nila";
 
-        System.out.println(horizontalLine);
+        printLine();
         System.out.println("Hello! I'm " + name + " :)");
         System.out.println("What can I do for you today?");
-        System.out.println(horizontalLine);
+        printLine();
 
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
 
         while (!input.equals("bye")) {
-            System.out.println(horizontalLine);
+            printLine();
             Echo output = new Echo(input);
             output.toEcho();
-            System.out.println(horizontalLine);
+            printLine();
             input = sc.nextLine();
         }
 
         System.out.println("Bye! Hope to see you again soon!");
-        System.out.println(horizontalLine);
+        printLine();
 
         sc.close();
+    }
+
+    public static void printLine() {
+        String horizontalLine = "____________________________________________________________";
+        System.out.println(horizontalLine);
     }
 }

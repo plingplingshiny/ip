@@ -11,13 +11,24 @@ public class Nila {
 
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
+        String[] parts = input.split("\\s+", 2);
+        String command = parts[0];
+        String remaining = (parts.length > 1) ? parts[1] : "";
 
-        while (!input.equals("bye")) {
+        TaskManager taskList = new TaskManager();
+        while (!command.equals("bye")) {
             printLine();
-            Echo output = new Echo(input);
-            output.toEcho();
+            if (command.equals("list")) {
+                taskList.listTasks();
+            } else {
+                Task curTask = new Task(command + " " + remaining);
+                taskList.addTask(curTask);
+            }
             printLine();
             input = sc.nextLine();
+            parts = input.split("\\s+", 2);
+            command = parts[0];
+            remaining = (parts.length > 1) ? parts[1] : "";
         }
 
         System.out.println("Bye!\uD83D\uDC4B Hope to see you again soon!");

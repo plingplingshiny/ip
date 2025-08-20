@@ -10,10 +10,8 @@ public class Nila {
         printLine();
 
         Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        String[] parts = input.split("\\s+", 2);
-        String command = parts[0];
-        String remaining = (parts.length > 1) ? parts[1] : "";
+        String command = sc.next();
+        String remaining = sc.nextLine().trim();
 
         TaskManager taskList = new TaskManager();
         while (!command.equals("bye")) {
@@ -28,16 +26,31 @@ public class Nila {
                 case "unmark":
                     taskList.markNotDone(Integer.parseInt(remaining));
                     break;
-                default:
-                    Task curTask = new Task(command + " " + remaining);
+                case "todo":
+                    Task curTask = new Todo(remaining);
                     taskList.addTask(curTask);
+                    break;
+                case "deadline":
+                    String[] deadlineParts = remaining.split("/by", 2);
+                    String description = deadlineParts[0].trim();
+                    String deadline = (deadlineParts.length > 1) ? deadlineParts[1].trim() : "";
+                    Task curDeadline = new Deadline(description, deadline);
+                    taskList.addTask(curDeadline);
+                    break;
+                case "event":
+                    String[] fromParts = remaining.split("/from", 2);
+                    String event = fromParts[0].trim();
+                    String[] toParts = fromParts[1].split("/to", 2);
+                    String start = toParts[0].trim();
+                    String end = toParts[1].trim();
+                    Task curEvent = new Event(event, start, end);
+                    taskList.addTask(curEvent);
+                    break;
             }
 
             printLine();
-            input = sc.nextLine();
-            parts = input.split("\\s+", 2);
-            command = parts[0];
-            remaining = (parts.length > 1) ? parts[1] : "";
+            command = sc.next();
+            remaining = sc.nextLine().trim();
         }
 
         System.out.println("Bye!\uD83D\uDC4B Hope to see you again soon!");

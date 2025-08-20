@@ -5,7 +5,7 @@ public class Nila {
         String name = "Nila";
 
         printLine();
-        System.out.println("Hello! I'm " + name + " :)");
+        System.out.println("Hello! I'm " + name + " \uD83E\uDD81");
         System.out.println("What can I do for you today?");
         printLine();
 
@@ -20,7 +20,7 @@ public class Nila {
             input = sc.nextLine();
         }
 
-        System.out.println("Bye! Hope to see you again soon!");
+        System.out.println("Bye!\uD83D\uDC4B Hope to see you again soon!");
         printLine();
 
         sc.close();

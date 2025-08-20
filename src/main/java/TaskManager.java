@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class TaskManager {
-    static ArrayList<Task> things = new ArrayList<>(100);
+    ArrayList<Task> things = new ArrayList<>(100);
 
     TaskManager() {
 
@@ -14,7 +14,22 @@ public class TaskManager {
 
     void listTasks() {
         for (int i = 1; i <= things.size(); i++) {
-            System.out.println(i + ". " + things.get(i - 1));
+            Task curTask = things.get(i-1);
+            System.out.println(i + ". " + curTask);
         }
+    }
+
+    void markDone(int index) {
+        Task markedTask = things.get(index-1);
+        markedTask.markDone();
+        System.out.println("Good job! I have marked this task as done:");
+        System.out.println(markedTask);
+    }
+
+    void markNotDone(int index) {
+        Task unmarkTask = things.get(index-1);
+        unmarkTask.markNotDone();
+        System.out.println("Okay, I have marked this task as not done:");
+        System.out.println(unmarkTask);
     }
 }

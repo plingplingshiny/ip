@@ -18,12 +18,21 @@ public class Nila {
         TaskManager taskList = new TaskManager();
         while (!command.equals("bye")) {
             printLine();
-            if (command.equals("list")) {
-                taskList.listTasks();
-            } else {
-                Task curTask = new Task(command + " " + remaining);
-                taskList.addTask(curTask);
+            switch (command) {
+                case "list":
+                    taskList.listTasks();
+                    break;
+                case "mark":
+                    taskList.markDone(Integer.parseInt(remaining));
+                    break;
+                case "unmark":
+                    taskList.markNotDone(Integer.parseInt(remaining));
+                    break;
+                default:
+                    Task curTask = new Task(command + " " + remaining);
+                    taskList.addTask(curTask);
             }
+
             printLine();
             input = sc.nextLine();
             parts = input.split("\\s+", 2);

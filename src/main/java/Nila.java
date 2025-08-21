@@ -9,47 +9,55 @@ public class Nila{
         System.out.println("What can I do for you today?");
         printLine();
 
+
         Scanner sc = new Scanner(System.in);
-        String command = sc.next();
+
+        String commandStr = sc.next().toLowerCase();
+        Command command;
+        try {
+            command = Command.valueOf(commandStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            command = Command.UNKNOWN;
+        }
         String remaining = sc.nextLine().trim();
 
         TaskManager taskList = new TaskManager();
-        while (!command.equals("bye")) {
+        while (command != Command.BYE) {
             printLine();
             try {
                 switch (command) {
-                    case "list":
+                    case LIST:
                         taskList.listTasks();
                         break;
-                    case "mark":
+                    case MARK:
                         try {
                             taskList.markDone(Integer.parseInt(remaining));
                         } catch (Exception e) {
                             System.out.println("OOPS!!! Please enter a valid task number to mark!");
                         }
                         break;
-                    case "unmark":
+                    case UNMARK:
                         try {
                             taskList.markNotDone(Integer.parseInt(remaining));
                         } catch (Exception e) {
                             System.out.println("OOPS!!! Please enter a valid task number to unmark!");
                         }
                         break;
-                    case "delete":
+                    case DELETE:
                         try {
                             taskList.removeTask(Integer.parseInt(remaining));
                         } catch (Exception e) {
                             System.out.println("OOPS!!! Please enter a valid task number to delete!");
                         }
                         break;
-                    case "todo":
+                    case TODO:
                         if (remaining.isEmpty()) {
                             throw new NilaException("OOPS!!! Description of task cannot be empty!");
                         }
                         Task curTask = new Todo(remaining);
                         taskList.addTask(curTask);
                         break;
-                    case "deadline":
+                    case DEADLINE:
                         String[] deadlineParts = remaining.split("/by", 2);
                         String description = deadlineParts[0].trim();
                         if (description.isEmpty()) {
@@ -62,7 +70,7 @@ public class Nila{
                         Task curDeadline = new Deadline(description, deadline);
                         taskList.addTask(curDeadline);
                         break;
-                    case "event":
+                    case EVENT:
                         if (!remaining.contains("/from") || !remaining.contains("/to")) {
                             throw new NilaException("OOPS!!! An event must have /from and /to timings.");
                         }
@@ -80,16 +88,21 @@ public class Nila{
                         Task curEvent = new Event(event, start, end);
                         taskList.addTask(curEvent);
                         break;
-                    default:
-                        throw new NilaException("Sorry, I don't know what " + command + " means \uD83D\uDE2D\nTo add tasks, use: todo, deadline, event\nTo see a list of your tasks, use: list\nTo mark or unmark tasks, use: mark, unmark");
+                    case UNKNOWN:
+                        throw new NilaException("Sorry, I don't know what " + commandStr + " means \uD83D\uDE2D\nTo add tasks, use: todo, deadline, event\nTo see a list of your tasks, use: list\nTo mark or unmark tasks, use: mark, unmark");
                 }
             } catch (NilaException e) {
                 System.out.println(e.getMessage());
             }
 
             printLine();
-            command = sc.next();
-            if (!command.equals("bye")) {
+            commandStr = sc.next().toLowerCase();
+            try {
+                command = Command.valueOf(commandStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                command = Command.UNKNOWN;
+            }
+            if (command != Command.BYE) {
                 remaining = sc.nextLine().trim();
             }
         }
@@ -103,5 +116,8 @@ public class Nila{
     public static void printLine() {
         String horizontalLine = "____________________________________________________________";
         System.out.println(horizontalLine);
+    }
+    public enum Command {
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, BYE, UNKNOWN
     }
 }

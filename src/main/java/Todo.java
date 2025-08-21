@@ -4,6 +4,7 @@ public class Todo extends Task{
         super(taskName);
     }
 
+    @Override
     public String toString() {
         String taskType = "\uD83D\uDCCB";
         return taskType + " " + super.toString();

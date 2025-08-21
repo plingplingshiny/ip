@@ -50,7 +50,9 @@ public class Nila {
 
             printLine();
             command = sc.next();
-            remaining = sc.nextLine().trim();
+            if (!command.equals("bye")) {
+                remaining = sc.nextLine().trim();
+            }
         }
 
         System.out.println("Bye!\uD83D\uDC4B Hope to see you again soon!");

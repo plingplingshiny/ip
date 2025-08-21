@@ -6,6 +6,7 @@ public class Deadline extends Task{
         deadline = dueBy;
     }
 
+    @Override
     public String toString() {
         String taskType = "❗";
         return taskType + " " + super.toString() + " (by: " + deadline + ")";

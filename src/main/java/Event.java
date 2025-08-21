@@ -8,6 +8,7 @@ public class Event extends Task{
         end = to;
     }
 
+    @Override
     public String toString() {
         String taskType = "\uD83D\uDCC5";
         String time = " (from: " + start + " to: " + end + ")";

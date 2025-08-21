@@ -35,6 +35,13 @@ public class Nila{
                             System.out.println("OOPS!!! Please enter a valid task number to unmark!");
                         }
                         break;
+                    case "delete":
+                        try {
+                            taskList.removeTask(Integer.parseInt(remaining));
+                        } catch (Exception e) {
+                            System.out.println("OOPS!!! Please enter a valid task number to delete!");
+                        }
+                        break;
                     case "todo":
                         if (remaining.isEmpty()) {
                             throw new NilaException("OOPS!!! Description of task cannot be empty!");

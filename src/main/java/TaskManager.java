@@ -32,4 +32,11 @@ public class TaskManager {
         System.out.println("Okay, I have marked this task as not done:");
         System.out.println(unmarkTask);
     }
+
+    void removeTask(int index) {
+        Task removedTask = things.get(index-1);
+        things.remove(index-1);
+        System.out.println("Okay, I have deleted this task:");
+        System.out.println(removedTask);
+    }
 }

@@ -1,5 +1,5 @@
 public class Task {
-    private String task;
+    protected String task;
     public boolean isDone;
 
     Task(String taskName) {
@@ -18,5 +18,31 @@ public class Task {
 
     void markNotDone() {
         isDone = false;
+    }
+
+    String toSaveFormat() {
+        return "";
+    }
+
+    static Task fromSaveFormat(String line) {
+        String[] curLine = line.split("\\|");
+        String command = curLine[0];
+        boolean isDone = curLine[1].trim().equals("1");
+        String description = curLine[2];
+        Task savedTask;
+        if (command.equals("T")) {
+            savedTask = new Todo(description);
+        } else if (command.equals("D")) {
+            String dueBy = curLine[3];
+            savedTask = new Deadline(description, dueBy);
+        } else {
+            String from = curLine[2];
+            String to = curLine[3];
+            savedTask = new Event(description, from, to);
+        }
+        if (isDone) {
+            savedTask.markDone();
+        }
+        return savedTask;
     }
 }

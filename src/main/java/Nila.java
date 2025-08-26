@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 
 public class Nila{
     public static void main(String[] args) throws NilaException {
@@ -12,6 +14,19 @@ public class Nila{
 
         Scanner sc = new Scanner(System.in);
 
+        File folder = new File("./data");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        File file = new File("./data/nila.txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Error creating data file: " + e.getMessage());
+            }
+        }
+
         String commandStr = sc.next().toLowerCase();
         Command command;
         try {
@@ -22,6 +37,8 @@ public class Nila{
         String remaining = sc.nextLine().trim();
 
         TaskManager taskList = new TaskManager();
+        taskList.loadTasksFromFile(file);
+
         while (command != Command.BYE) {
             printLine();
             try {

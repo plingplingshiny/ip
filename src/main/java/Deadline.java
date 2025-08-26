@@ -11,5 +11,11 @@ public class Deadline extends Task{
         String taskType = "❗";
         return taskType + " " + super.toString() + " (by: " + deadline + ")";
     }
+
+    @Override
+    String toSaveFormat() {
+        int isDone = (this.isDone) ? 1 : 0;
+        return "D|" + isDone + "|" + this.task + "|" + deadline;
+    }
 }
 

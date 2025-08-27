@@ -74,4 +74,8 @@ public class TaskManager {
             System.out.println("Data file not found, starting with empty task list.");
         }
     }
+
+    public ArrayList<Task> getTasks() {
+        return things;
+    }
 }

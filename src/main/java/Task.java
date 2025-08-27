@@ -46,8 +46,8 @@ public class Task {
                 savedTask = new Deadline(description, d);
             }
         } else {
-            String from = curLine[2];
-            String to = curLine[3];
+            String from = curLine[3];
+            String to = curLine[4];
             LocalDateTime start = LocalDateTime.parse(from);
             LocalDateTime end = LocalDateTime.parse(to);
             savedTask = new Event(description, start, end);

@@ -1,21 +1,37 @@
-public class Deadline extends Task{
-    private String deadline;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    Deadline(String taskName, String dueBy) {
+public class Deadline extends Task{
+    private LocalDateTime dateTime; // optional
+    private LocalDate date;
+
+    Deadline(String taskName, LocalDateTime dt) {
         super(taskName);
-        deadline = dueBy;
+        dateTime = dt;
+    }
+
+    Deadline(String taskName, LocalDate d) {
+        super(taskName);
+        date = d;
     }
 
     @Override
     public String toString() {
         String taskType = "❗";
-        return taskType + " " + super.toString() + " (by: " + deadline + ")";
+        String when = (dateTime != null)
+                ? dateTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"))
+                : date.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        return taskType + " " + super.toString() + " (by: " + when + ")";
     }
 
     @Override
     String toSaveFormat() {
         int isDone = (this.isDone) ? 1 : 0;
-        return "D|" + isDone + "|" + this.task + "|" + deadline;
+        if (dateTime != null) {
+            return "D|" + isDone + "|" + this.task + "|" + dateTime.toString();
+        }
+        return "D|" + isDone + "|" + this.task + "|" + date.toString();
     }
 }
 

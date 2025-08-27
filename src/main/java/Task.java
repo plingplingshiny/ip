@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 public class Task {
     protected String task;
     public boolean isDone;
@@ -33,8 +37,14 @@ public class Task {
         if (command.equals("T")) {
             savedTask = new Todo(description);
         } else if (command.equals("D")) {
-            String dueBy = curLine[3];
-            savedTask = new Deadline(description, dueBy);
+            String savedDate = curLine[3];
+            try {
+                LocalDateTime dt = LocalDateTime.parse(savedDate);
+                savedTask = new Deadline(description, dt);
+            } catch (DateTimeParseException e1) {
+                LocalDate d = LocalDate.parse(savedDate);
+                savedTask = new Deadline(description, d);
+            }
         } else {
             String from = curLine[2];
             String to = curLine[3];

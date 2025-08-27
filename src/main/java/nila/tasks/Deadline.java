@@ -1,17 +1,19 @@
+package nila.tasks;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Deadline extends Task{
+public class Deadline extends Task {
     private LocalDateTime dateTime; // optional
     private LocalDate date;
 
-    Deadline(String taskName, LocalDateTime dt) {
+    public Deadline(String taskName, LocalDateTime dt) {
         super(taskName);
         dateTime = dt;
     }
 
-    Deadline(String taskName, LocalDate d) {
+    public Deadline(String taskName, LocalDate d) {
         super(taskName);
         date = d;
     }
@@ -26,7 +28,7 @@ public class Deadline extends Task{
     }
 
     @Override
-    String toSaveFormat() {
+    public String toSaveFormat() {
         int isDone = (this.isDone) ? 1 : 0;
         if (dateTime != null) {
             return "D|" + isDone + "|" + this.task + "|" + dateTime.toString();

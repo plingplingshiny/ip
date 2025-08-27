@@ -1,3 +1,5 @@
+package nila.tasks;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -24,11 +26,11 @@ public class Task {
         isDone = false;
     }
 
-    String toSaveFormat() {
+    public String toSaveFormat() {
         return "";
     }
 
-    static Task fromSaveFormat(String line) {
+    public static Task fromSaveFormat(String line) {
         String[] curLine = line.split("\\|");
         String command = curLine[0];
         boolean isDone = curLine[1].trim().equals("1");

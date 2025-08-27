@@ -1,3 +1,8 @@
+package nila.storage;
+
+import nila.tasks.Task;
+import nila.tasks.TaskManager;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

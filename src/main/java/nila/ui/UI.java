@@ -1,3 +1,7 @@
+package nila.ui;
+
+import nila.NilaException;
+
 import java.util.Scanner;
 
 public class UI {

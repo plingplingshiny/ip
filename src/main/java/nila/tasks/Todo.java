@@ -1,6 +1,8 @@
-public class Todo extends Task{
+package nila.tasks;
 
-    Todo(String taskName) {
+public class Todo extends Task {
+
+    public Todo(String taskName) {
         super(taskName);
     }
 
@@ -11,7 +13,7 @@ public class Todo extends Task{
     }
 
     @Override
-    String toSaveFormat() {
+    public String toSaveFormat() {
         int isDone = (this.isDone) ? 1 : 0;
         return "T|" + isDone + "|" + this.task;
     }

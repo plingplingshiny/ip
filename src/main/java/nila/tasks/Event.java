@@ -1,11 +1,13 @@
+package nila.tasks;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Event extends Task{
+public class Event extends Task {
     private LocalDateTime start;
     private LocalDateTime end;
 
-    Event(String task, LocalDateTime from, LocalDateTime to) {
+    public Event(String task, LocalDateTime from, LocalDateTime to) {
         super(task);
         start = from;
         end = to;
@@ -20,7 +22,7 @@ public class Event extends Task{
     }
 
     @Override
-    String toSaveFormat() {
+    public String toSaveFormat() {
         int isDone = (this.isDone) ? 1 : 0;
         return "E|" + isDone + "|" + this.task + "|" + start.toString() + "|" + end.toString();
     }

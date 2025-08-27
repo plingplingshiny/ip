@@ -48,7 +48,9 @@ public class Task {
         } else {
             String from = curLine[2];
             String to = curLine[3];
-            savedTask = new Event(description, from, to);
+            LocalDateTime start = LocalDateTime.parse(from);
+            LocalDateTime end = LocalDateTime.parse(to);
+            savedTask = new Event(description, start, end);
         }
         if (isDone) {
             savedTask.markDone();

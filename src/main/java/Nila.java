@@ -115,10 +115,17 @@ public class Nila{
                     if (toParts.length < 2 || toParts[0].trim().isEmpty() || toParts[1].trim().isEmpty()) {
                         throw new NilaException("OOPS!!! An event must have both start and end timings.");
                     }
+                    DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
                     String start = toParts[0].trim();
                     String end = toParts[1].trim();
-                    Task curEvent = new Event(event, start, end);
-                    taskList.addTask(curEvent);
+                    try {
+                        LocalDateTime startDT = LocalDateTime.parse(start, inputFmt);
+                        LocalDateTime endDT = LocalDateTime.parse(end, inputFmt);
+                        Task curEvent = new Event(event, startDT, endDT);
+                        taskList.addTask(curEvent);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("OOPS!!! Please enter start and end in yyyy-MM-dd HHmm format.");
+                    }
                     break;
                 case UNKNOWN:
                     throw new NilaException("Sorry, I don't know what " + commandStr + " means \uD83D\uDE2D\nTo add tasks, use: todo, deadline, event\nTo see a list of your tasks, use: list\nTo mark or unmark tasks, use: mark, unmark");

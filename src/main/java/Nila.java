@@ -12,18 +12,8 @@ public class Nila{
         UI ui = new UI();
         ui.showGreeting(name);
 
-        File folder = new File("./data");
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-        File file = new File("./data/nila.txt");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Error creating data file: " + e.getMessage());
-            }
-        }
+        Storage storage = new Storage("./data/nila.txt");
+        TaskManager taskList = storage.loadTasks();
 
         String commandStr = ui.readCommand();
         Command command;
@@ -33,9 +23,6 @@ public class Nila{
             command = Command.UNKNOWN;
         }
         String remaining = ui.readRemaining();
-
-        TaskManager taskList = new TaskManager();
-        taskList.loadTasksFromFile(file);
 
         while (command != Command.BYE) {
             ui.printLine();
@@ -123,7 +110,7 @@ public class Nila{
                     break;
                 case UNKNOWN:
                     throw ui.unknownCommandError(commandStr);
-            }
+            } storage.saveTasks(taskList);
             } catch (NilaException e) {
                 System.out.println(e.getMessage());
             }

@@ -16,13 +16,9 @@ public class Nila{
         TaskManager taskList = storage.loadTasks();
 
         String commandStr = ui.readCommand();
-        Command command;
-        try {
-            command = Command.valueOf(commandStr.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            command = Command.UNKNOWN;
-        }
+        Command command = Parser.parseCommand(commandStr);
         String remaining = ui.readRemaining();
+
 
         while (command != Command.BYE) {
             ui.printLine();
@@ -53,60 +49,16 @@ public class Nila{
                     }
                     break;
                 case TODO:
-                    if (remaining.isEmpty()) {
-                        throw ui.emptyTaskDescription();
-                    }
-                    Task curTask = new Todo(remaining);
-                    taskList.addTask(curTask);
+                    Task newTodo = Parser.parseTodo(remaining, ui);
+                    taskList.addTask(newTodo);
                     break;
                 case DEADLINE:
-                    String[] deadlineParts = remaining.split("/by", 2);
-                    String description = deadlineParts[0].trim();
-                    if (description.isEmpty()) {
-                        throw ui.emptyTaskDescription();
-                    }
-                    if (deadlineParts.length < 2 || deadlineParts[1].trim().isEmpty()) {
-                        throw new NilaException("OOPS!!! A deadline must have a /by time!");
-                    }
-                    String deadline = deadlineParts[1].trim();
-                    Task curDeadline;
-                    try {
-                        LocalDateTime dt = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-                        curDeadline = new Deadline(description, dt);
-                    } catch (DateTimeParseException e1) {
-                        try {
-                            LocalDate d = LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                            curDeadline = new Deadline(description, d);
-                        } catch (DateTimeParseException e2) {
-                            throw new NilaException("OOPS!!! Please enter the deadline in yyyy-MM-dd or yyyy-MM-dd HHmm format!");
-                        }
-                    }
-                    taskList.addTask(curDeadline);
+                    Task newDeadline = Parser.parseDeadline(remaining, ui);
+                    taskList.addTask(newDeadline);
                     break;
                 case EVENT:
-                    if (!remaining.contains("/from") || !remaining.contains("/to")) {
-                        throw new NilaException("OOPS!!! An event must have /from and /to timings.");
-                    }
-                    String[] fromParts = remaining.split("/from", 2);
-                    String event = fromParts[0].trim();
-                    if (event.isEmpty()) {
-                        throw ui.emptyTaskDescription();
-                    }
-                    String[] toParts = fromParts[1].split("/to", 2);
-                    if (toParts.length < 2 || toParts[0].trim().isEmpty() || toParts[1].trim().isEmpty()) {
-                        throw new NilaException("OOPS!!! An event must have both start and end timings.");
-                    }
-                    DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-                    String start = toParts[0].trim();
-                    String end = toParts[1].trim();
-                    try {
-                        LocalDateTime startDT = LocalDateTime.parse(start, inputFmt);
-                        LocalDateTime endDT = LocalDateTime.parse(end, inputFmt);
-                        Task curEvent = new Event(event, startDT, endDT);
-                        taskList.addTask(curEvent);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("OOPS!!! Please enter start and end in yyyy-MM-dd HHmm format.");
-                    }
+                    Task newEvent = Parser.parseEvent(remaining, ui);
+                    taskList.addTask(newEvent);
                     break;
                 case UNKNOWN:
                     throw ui.unknownCommandError(commandStr);
@@ -117,11 +69,7 @@ public class Nila{
 
             ui.printLine();
             commandStr = ui.readCommand();
-            try {
-                command = Command.valueOf(commandStr.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                command = Command.UNKNOWN;
-            }
+            command = Parser.parseCommand(commandStr);
             if (command != Command.BYE) {
                 remaining = ui.readRemaining();
             }

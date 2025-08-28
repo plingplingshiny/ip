@@ -4,15 +4,26 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
+/**
+ * aa
+ */
 public class Task {
+    private static boolean isDone;
     protected String task;
-    public boolean isDone;
 
     Task(String taskName) {
         task = taskName;
         isDone = false;
     }
 
+    public static boolean getIsDone() {
+        return isDone;
+    }
+
+    /**
+     * aa
+     * @return aa
+     */
     public String toString() {
         String status = (isDone) ? "\uD83D\uDDF9 " : "☐ ";
         return status + task;
@@ -30,6 +41,11 @@ public class Task {
         return "";
     }
 
+    /**
+     * aa
+     * @param line aa
+     * @return aa
+     */
     public static Task fromSaveFormat(String line) {
         String[] curLine = line.split("\\|");
         String command = curLine[0];

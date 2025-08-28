@@ -1,3 +1,4 @@
+
 package nila;
 import nila.parser.Parser;
 import nila.storage.Storage;
@@ -5,11 +6,18 @@ import nila.tasks.Task;
 import nila.tasks.TaskManager;
 import nila.ui.UI;
 
-public class Nila{
+/**
+ * aa
+ */
+public class Nila {
     private Storage storage;
     private TaskManager taskList;
     private UI ui;
 
+    /**
+     * aa
+     * @param filePath aa
+     */
     public Nila(String filePath) {
         ui = new UI();
         storage = new Storage(filePath);
@@ -18,8 +26,11 @@ public class Nila{
         ui.printLine();
     }
 
+    /**
+     * aa
+     */
     public void run() {
-//        ui.showGreeting("nila.Nila");
+        ui.showGreeting("nila.Nila");
 
         String commandStr = ui.readCommand();
         Command command = Parser.parseCommand(commandStr);
@@ -29,45 +40,48 @@ public class Nila{
             ui.printLine();
             try {
                 switch (command) {
-                    case LIST:
-                        taskList.listTasks();
-                        break;
-                    case MARK:
-                        try {
-                            taskList.markDone(Integer.parseInt(remaining));
-                        } catch (Exception e) {
-                            ui.invalidNum("mark");
-                        }
-                        break;
-                    case UNMARK:
-                        try {
-                            taskList.markNotDone(Integer.parseInt(remaining));
-                        } catch (Exception e) {
-                            ui.invalidNum("unmark");
-                        }
-                        break;
-                    case DELETE:
-                        try {
-                            taskList.removeTask(Integer.parseInt(remaining));
-                        } catch (Exception e) {
-                            ui.invalidNum("delete");
-                        }
-                        break;
-                    case TODO:
-                        Task newTodo = Parser.parseTodo(remaining, ui);
-                        taskList.addTask(newTodo);
-                        break;
-                    case DEADLINE:
-                        Task newDeadline = Parser.parseDeadline(remaining, ui);
-                        taskList.addTask(newDeadline);
-                        break;
-                    case EVENT:
-                        Task newEvent = Parser.parseEvent(remaining, ui);
-                        taskList.addTask(newEvent);
-                        break;
-                    case UNKNOWN:
-                        throw ui.unknownCommandError(commandStr);
-                } storage.saveTasks(taskList);
+                case LIST:
+                    taskList.listTasks();
+                    break;
+                case MARK:
+                    try {
+                        taskList.markDone(Integer.parseInt(remaining));
+                    } catch (Exception e) {
+                        ui.invalidNum("mark");
+                    }
+                    break;
+                case UNMARK:
+                    try {
+                        taskList.markNotDone(Integer.parseInt(remaining));
+                    } catch (Exception e) {
+                        ui.invalidNum("unmark");
+                    }
+                    break;
+                case DELETE:
+                    try {
+                        taskList.removeTask(Integer.parseInt(remaining));
+                    } catch (Exception e) {
+                        ui.invalidNum("delete");
+                    }
+                    break;
+                case TODO:
+                    Task newTodo = Parser.parseTodo(remaining, ui);
+                    taskList.addTask(newTodo);
+                    break;
+                case DEADLINE:
+                    Task newDeadline = Parser.parseDeadline(remaining, ui);
+                    taskList.addTask(newDeadline);
+                    break;
+                case EVENT:
+                    Task newEvent = Parser.parseEvent(remaining, ui);
+                    taskList.addTask(newEvent);
+                    break;
+                case UNKNOWN:
+                    throw ui.unknownCommandError(commandStr);
+                default:
+                    break;
+                }
+                storage.saveTasks(taskList);
             } catch (NilaException e) {
                 System.out.println(e.getMessage());
             }
@@ -88,6 +102,9 @@ public class Nila{
         new Nila("./data/nila.txt").run();
     }
 
+    /**
+     * aa
+     */
     public enum Command {
         LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, BYE, UNKNOWN
     }

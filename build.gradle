@@ -41,6 +41,7 @@ application {
 shadowJar {
     archiveBaseName = "nila"
     archiveClassifier = null
+    archiveFileName = 'nila.jar'
 }
 
 run{

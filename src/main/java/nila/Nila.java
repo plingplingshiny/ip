@@ -21,7 +21,7 @@ public class Nila {
     public Nila(String filePath) {
         ui = new UI();
         storage = new Storage(filePath);
-        ui.showGreeting("nila.Nila");
+        ui.showGreeting("Nila");
         taskList = storage.loadTasks();
         ui.printLine();
     }
@@ -30,8 +30,6 @@ public class Nila {
      * aa
      */
     public void run() {
-        ui.showGreeting("nila.Nila");
-
         String commandStr = ui.readCommand();
         Command command = Parser.parseCommand(commandStr);
         String remaining = ui.readRemaining();

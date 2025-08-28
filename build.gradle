@@ -5,6 +5,12 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
+checkstyle {
+    toolVersion = "10.3"
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    configDirectory = file("${rootDir}/config/checkstyle")
+}
+
 repositories {
     mavenCentral()
 }

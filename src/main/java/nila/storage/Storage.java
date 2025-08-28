@@ -1,16 +1,23 @@
 package nila.storage;
 
-import nila.tasks.Task;
-import nila.tasks.TaskManager;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import nila.tasks.Task;
+import nila.tasks.TaskManager;
+
+/**
+ * aa
+ */
 public class Storage {
     private final File file;
 
+    /**
+     * aa
+     * @param filePath aa
+     */
     public Storage(String filePath) {
         file = new File(filePath);
         createIfNotExists();
@@ -30,6 +37,10 @@ public class Storage {
         }
     }
 
+    /**
+     * aa
+     * @param taskList aa
+     */
     public void saveTasks(TaskManager taskList) {
         try (FileWriter fw = new FileWriter(file)) {
             for (Task task : taskList.getTasks()) {
@@ -40,6 +51,10 @@ public class Storage {
         }
     }
 
+    /**
+     * aa
+     * @return aa
+     */
     public TaskManager loadTasks() {
         TaskManager taskList = new TaskManager();
         try (Scanner sc = new Scanner(file)) {

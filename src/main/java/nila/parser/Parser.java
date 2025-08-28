@@ -1,5 +1,10 @@
 package nila.parser;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import nila.Nila;
 import nila.NilaException;
 import nila.tasks.Deadline;
@@ -8,13 +13,16 @@ import nila.tasks.Task;
 import nila.tasks.Todo;
 import nila.ui.UI;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
+/**
+ * aa
+ */
 public class Parser {
 
+    /**
+     * aa
+     * @param input aa
+     * @return aa
+     */
     public static Nila.Command parseCommand(String input) {
         String[] parts = input.trim().split(" ", 2);
         String commandWord = parts[0].toUpperCase();
@@ -25,11 +33,13 @@ public class Parser {
         }
     }
 
-    public static String parseArgs(String input) {
-        String[] parts = input.trim().split(" ", 2);
-        return parts.length > 1 ? parts[1].trim() : "";
-    }
-
+    /**
+     * aa
+     * @param args aa
+     * @param ui aa
+     * @return aa
+     * @throws NilaException aa
+     */
     public static Task parseTodo(String args, UI ui) throws NilaException {
         if (args.isEmpty()) {
             throw ui.emptyTaskDescription();
@@ -37,6 +47,13 @@ public class Parser {
         return new Todo(args);
     }
 
+    /**
+     * aa
+     * @param args aa
+     * @param ui aa
+     * @return aa
+     * @throws NilaException aa
+     */
     public static Task parseDeadline(String args, UI ui) throws NilaException {
         String[] deadlineParts = args.split("/by", 2);
         String description = deadlineParts[0].trim();
@@ -60,6 +77,13 @@ public class Parser {
         }
     }
 
+    /**
+     * aa
+     * @param args aa
+     * @param ui aa
+     * @return aa
+     * @throws NilaException aa
+     */
     public static Task parseEvent(String args, UI ui) throws NilaException {
         if (!args.contains("/from") || !args.contains("/to")) {
             throw new NilaException("OOPS!!! An event must have /from and /to timings.");

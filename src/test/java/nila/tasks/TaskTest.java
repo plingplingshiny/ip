@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class TaskTest {
 
     @Test
-    public void testGetIsDone_andMarkDone_andMarkNotDone() {
+    public void testGetIsDone_andMarkDone_andarkNotDone() {
         Task task = new Task("read book");
         assertEquals(false, task.getIsDone(),
                 "Task should be not done initially");

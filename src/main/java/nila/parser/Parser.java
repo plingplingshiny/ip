@@ -77,7 +77,8 @@ public class Parser {
                 LocalDate d = LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 return new Deadline(description, d);
             } catch (DateTimeParseException e2) {
-                throw new NilaException("OOPS!!! Please enter the deadline in yyyy-MM-dd or yyyy-MM-dd HHmm format!");
+                throw new NilaException("OOPS!!! Please enter the deadline in yyyy-MM-dd or"
+                        + "yyyy-MM-dd HHmm format!");
             }
         }
     }

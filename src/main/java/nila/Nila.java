@@ -7,7 +7,7 @@ import nila.tasks.TaskManager;
 import nila.ui.UI;
 
 /**
- * aa
+ * The {@code Nila} class represents the main entry point of the {@code Nila} chatbot application.
  */
 public class Nila {
     private Storage storage;
@@ -15,8 +15,8 @@ public class Nila {
     private UI ui;
 
     /**
-     * aa
-     * @param filePath aa
+     * Constructs a {@code Nila} chatbot instance with the specified storage file.
+     * @param filePath the path to the file where tasks are stored
      */
     public Nila(String filePath) {
         ui = new UI();
@@ -27,7 +27,7 @@ public class Nila {
     }
 
     /**
-     * aa
+     * Runs the main loop of the {@code Nila} chatbot
      */
     public void run() {
         String commandStr = ui.readCommand();
@@ -101,7 +101,7 @@ public class Nila {
     }
 
     /**
-     * aa
+     * Represents the different types of commands supported by the {@code Nila} chatbot
      */
     public enum Command {
         LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, BYE, UNKNOWN

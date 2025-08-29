@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 /**
- * aa
+ * Represents a general task with a description and completion status.
  */
 public class Task {
     private static boolean isDone;
@@ -21,30 +21,40 @@ public class Task {
     }
 
     /**
-     * aa
-     * @return aa
+     * Returns a string representation of the task.
+     * @return A formatted string representing the task
      */
     public String toString() {
         String status = (isDone) ? "\uD83D\uDDF9 " : "☐ ";
         return status + task;
     }
 
+    /**
+     * Marks this task as completed.
+     */
     void markDone() {
         isDone = true;
     }
 
+    /**
+     * Marks this task as not completed.
+     */
     void markNotDone() {
         isDone = false;
     }
 
+    /**
+     * Converts the task into a string format for saving to a file.
+     * @return The string representation of the task in save format
+     */
     public String toSaveFormat() {
         return "";
     }
 
     /**
-     * aa
-     * @param line aa
-     * @return aa
+     * Reconstructs a {@code Task} object from its saved string format.
+     * @param line A line from the saved file representing a task
+     * @return the reconstructed {@code Task} object
      */
     public static Task fromSaveFormat(String line) {
         String[] curLine = line.split("\\|");

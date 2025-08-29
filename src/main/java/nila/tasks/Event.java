@@ -4,17 +4,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * aa
+ * Creates an {@code Event} task with start and end timings.
  */
 public class Event extends Task {
     private LocalDateTime start;
     private LocalDateTime end;
 
     /**
-     * aa
-     * @param task aa
-     * @param from aa
-     * @param to aa
+     * Creates an {@code Event} task with a start and end time.
+     * @param task description of event task
+     * @param from start date and time of event
+     * @param to end date and time of event
      */
     public Event(String task, LocalDateTime from, LocalDateTime to) {
         super(task);
@@ -30,6 +30,11 @@ public class Event extends Task {
                 + " to: " + end.format(fmt) + ")";
     }
 
+    /**
+     * Converts the event task into a saveable string format.
+     * for storage in a file.
+     * @return the string representation of the event task in save format
+     */
     @Override
     public String toSaveFormat() {
         int isDone = (this.getIsDone()) ? 1 : 0;

@@ -1,7 +1,7 @@
 package nila.tasks;
 
 /**
- * aa
+ * Represents a todo task
  */
 public class Todo extends Task {
 
@@ -15,6 +15,11 @@ public class Todo extends Task {
         return taskType + " " + super.toString();
     }
 
+    /**
+     * Converts the todo task into a saveable string format
+     * for storage in a file.
+     * @return the string representation of the todo task in save format
+     */
     @Override
     public String toSaveFormat() {
         int isDone = (this.getIsDone()) ? 1 : 0;

@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * aa
+ * Represents a task with a specific deadline.
  */
 public class Deadline extends Task {
     private LocalDateTime dateTime; // optional
     private LocalDate date;
 
     /**
-     * aa
-     * @param taskName aa
-     * @param dt aa
+     * Creates a {@code Deadline} task with a due date and time.
+     * @param taskName description of the task
+     * @param dt the deadline as a {@link LocalDateTime}
      */
     public Deadline(String taskName, LocalDateTime dt) {
         super(taskName);
@@ -22,9 +22,9 @@ public class Deadline extends Task {
     }
 
     /**
-     * aa
-     * @param taskName aa
-     * @param d aa
+     * Creates a {@code Deadline} task with a due date.
+     * @param taskName description of the task
+     * @param d deadline as a {@link LocalDate}
      */
     public Deadline(String taskName, LocalDate d) {
         super(taskName);
@@ -40,6 +40,11 @@ public class Deadline extends Task {
         return taskType + " " + super.toString() + " (by: " + when + ")";
     }
 
+    /**
+     * Converts the deadline task into a saveable string format
+     * for storage in a file.
+     * @return the string representation of the deadline task in save format
+     */
     @Override
     public String toSaveFormat() {
         int isDone = (this.getIsDone()) ? 1 : 0;

@@ -14,14 +14,19 @@ import nila.tasks.Todo;
 import nila.ui.UI;
 
 /**
- * aa
+ * The {@code Parser} class is responsible for interpreting user input
+ * strings into commands and task objects like {@link Todo}, {@link Deadline}
+ * and {@link Event}. It also validates input formats and throws
+ * {@link NilaException} for invalid inputs.
  */
 public class Parser {
 
     /**
-     * aa
-     * @param input aa
-     * @return aa
+     * Parses the command word from user input and converts it into a
+     * {@link Nila.Command}. If the command word is not recognized,
+     * {@link Nila.Command#UNKNOWN} is returned.
+     * @param input input the raw user input string
+     * @return the parsed {@link Nila.Command}
      */
     public static Nila.Command parseCommand(String input) {
         String[] parts = input.trim().split(" ", 2);
@@ -34,11 +39,11 @@ public class Parser {
     }
 
     /**
-     * aa
-     * @param args aa
-     * @param ui aa
-     * @return aa
-     * @throws NilaException aa
+     * Parses a {@link Todo} task from user input.
+     * @param args the description of the todo
+     * @param ui the UI instance used to provide error messages
+     * @return a {@link Todo} task
+     * @throws NilaException if the description is empty
      */
     public static Task parseTodo(String args, UI ui) throws NilaException {
         if (args.isEmpty()) {
@@ -48,11 +53,11 @@ public class Parser {
     }
 
     /**
-     * aa
-     * @param args aa
-     * @param ui aa
-     * @return aa
-     * @throws NilaException aa
+     * Parses a {@link Deadline} task from user input.
+     * @param args the raw string containing description and deadline
+     * @param ui the UI instance used to provide error messages
+     * @return a {@link Deadline} task
+     * @throws NilaException if the description is empty or the time format is invalid
      */
     public static Task parseDeadline(String args, UI ui) throws NilaException {
         String[] deadlineParts = args.split("/by", 2);
@@ -78,11 +83,11 @@ public class Parser {
     }
 
     /**
-     * aa
-     * @param args aa
-     * @param ui aa
-     * @return aa
-     * @throws NilaException aa
+     * Parses and {@link Event} task from user input.
+     * @param args the raw string containing description, start and end times
+     * @param ui the UI instance used to provide error messages
+     * @return an {link Event} task
+     * @throws NilaException if description is empty or timings are missing or invalid
      */
     public static Task parseEvent(String args, UI ui) throws NilaException {
         if (!args.contains("/from") || !args.contains("/to")) {

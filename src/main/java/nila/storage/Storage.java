@@ -9,7 +9,7 @@ import nila.tasks.Task;
 import nila.tasks.TaskManager;
 
 /**
- * aa
+ * Handles the saving and loading of tasks to and from a local file.
  */
 public class Storage {
     private final File file;
@@ -38,8 +38,8 @@ public class Storage {
     }
 
     /**
-     * aa
-     * @param taskList aa
+     * Saves all tasks from the {@link TaskManager} into the storage file.
+     * @param taskList The {@code TaskManager} containing tasks to be saved
      */
     public void saveTasks(TaskManager taskList) {
         try (FileWriter fw = new FileWriter(file)) {
@@ -52,8 +52,9 @@ public class Storage {
     }
 
     /**
-     * aa
-     * @return aa
+     * Load tasks from the storage file into a new {@link TaskManager}.
+     * Each link in the file is converted back into a {@link Task}.
+     * @return A {@code TaskManager} containing all loaded tasks.
      */
     public TaskManager loadTasks() {
         TaskManager taskList = new TaskManager();

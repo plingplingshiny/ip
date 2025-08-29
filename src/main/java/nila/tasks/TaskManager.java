@@ -92,4 +92,23 @@ public class TaskManager {
     public ArrayList<Task> getTasks() {
         return things;
     }
+
+    /**
+     * Finds and prints tasks whose descriptions contain the given keyword.
+     * @param keyword the keyword to search for
+     */
+    public void findTasks(String keyword) {
+        System.out.println("Here are the matching tasks in your list:");
+        int count = 0;
+        for (int i = 0; i < things.size(); i++) {
+            Task t = things.get(i);
+            if (t.task.toLowerCase().contains(keyword.toLowerCase())) {
+                System.out.println((count + 1) + ". " + t);
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("No tasks match your search.");
+        }
+    }
 }

@@ -76,6 +76,14 @@ public class Nila {
                     break;
                 case UNKNOWN:
                     throw ui.unknownCommandError(commandStr);
+                case FIND:
+                    try {
+                        String keyword = Parser.parseFind(remaining, ui);
+                        taskList.findTasks(keyword);
+                    } catch (NilaException e) {
+                        ui.emptyKeywordError();
+                    }
+                    break;
                 default:
                     break;
                 }
@@ -104,6 +112,6 @@ public class Nila {
      * Represents the different types of commands supported by the {@code Nila} chatbot
      */
     public enum Command {
-        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, BYE, UNKNOWN
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, BYE, UNKNOWN, FIND
     }
 }

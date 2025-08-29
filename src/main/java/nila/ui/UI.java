@@ -95,4 +95,12 @@ public class UI {
                 + "\nTo mark or unmark tasks, use: mark, unmark\n"
                 + "To delete tasks, use: delete");
     }
+
+    /**
+     * Prints an empty keyword search error message to the user.
+     */
+    public void emptyKeywordError() {
+        System.out.println("\"OOPS!!! You must provide a keyword to search for.\"");
+    }
+
 }

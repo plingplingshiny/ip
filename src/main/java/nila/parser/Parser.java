@@ -112,4 +112,18 @@ public class Parser {
             throw new NilaException("OOPS!!! Please enter start and end in yyyy-MM-dd HHmm format.");
         }
     }
+
+    /**
+     * Parses a find command.
+     * @param args the remaining string after 'find'
+     * @param ui UI for error messages
+     * @return the keyword to search for
+     * @throws NilaException if no keyword is provided
+     */
+    public static String parseFind(String args, UI ui) throws NilaException {
+        if (args.isEmpty()) {
+            throw new NilaException("");
+        }
+        return args;
+    }
 }

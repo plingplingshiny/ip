@@ -2,6 +2,7 @@ package nila.ui;
 
 import java.util.Scanner;
 
+import nila.Nila;
 import nila.NilaException;
 
 /**
@@ -37,9 +38,9 @@ public class UI {
     /**
      * Displays a goodbye message to the user when the program ends.
      */
-    public void showGoodbye() {
+    public void showGoodbye(Nila nila) {
         printLine();
-        System.out.println("Bye!\uD83D\uDC4B Hope to see you again soon!");
+        System.out.println(nila.getGoodbye());
         printLine();
     }
 
@@ -102,5 +103,4 @@ public class UI {
     public void emptyKeywordError() {
         System.out.println("\"OOPS!!! You must provide a keyword to search for.\"");
     }
-
 }

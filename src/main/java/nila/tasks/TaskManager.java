@@ -13,7 +13,11 @@ public class TaskManager {
     private ArrayList<Task> things = new ArrayList<>(100);
 
     public TaskManager() {
+        things = new ArrayList<>();
+    }
 
+    public TaskManager(ArrayList<Task> savedTasks) {
+        things = savedTasks;
     }
 
     /**

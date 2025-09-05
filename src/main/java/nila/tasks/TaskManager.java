@@ -13,7 +13,11 @@ public class TaskManager {
     private ArrayList<Task> things = new ArrayList<>(100);
 
     public TaskManager() {
+        things = new ArrayList<>();
+    }
 
+    public TaskManager(ArrayList<Task> savedTasks) {
+        things = savedTasks;
     }
 
     /**
@@ -111,4 +115,86 @@ public class TaskManager {
             System.out.println("No tasks match your search.");
         }
     }
+
+    /**
+     * ss
+     * @return
+     */
+    public String listTasksAsString() {
+        if (things.isEmpty()) {
+            return "No tasks in your list.";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < things.size(); i++) {
+            sb.append(i + 1).append(". ").append(things.get(i)).append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * aa
+     * @param task
+     * @return
+     */
+    public String addTaskAsString(Task task) {
+        things.add(task);
+        saveTasksToFile(new File("./data/nila.txt"));
+        return "Added: " + task;
+    }
+
+    /**
+     * aa
+     * @param index
+     * @return
+     */
+    public String markDoneAsString(int index) {
+        Task t = things.get(index - 1);
+        t.markDone();
+        saveTasksToFile(new File("./data/nila.txt"));
+        return "Marked as done:\n" + t;
+    }
+
+    /**
+     * aa
+     * @param index
+     * @return
+     */
+    public String markNotDoneAsString(int index) {
+        Task t = things.get(index - 1);
+        t.markNotDone();
+        saveTasksToFile(new File("./data/nila.txt"));
+        return "Marked as not done:\n" + t;
+    }
+
+    /**
+     * aa
+     * @param index
+     * @return
+     */
+    public String removeTaskAsString(int index) {
+        Task removed = things.remove(index - 1);
+        saveTasksToFile(new File("./data/nila.txt"));
+        return "Deleted:\n" + removed;
+    }
+
+    /**
+     * aa
+     * @param keyword
+     * @return
+     */
+    public String findTasksAsString(String keyword) {
+        StringBuilder sb = new StringBuilder("Matching tasks:\n");
+        int count = 0;
+        for (Task t : things) {
+            if (t.task.toLowerCase().contains(keyword.toLowerCase())) {
+                sb.append((count + 1)).append(". ").append(t).append("\n");
+                count++;
+            }
+        }
+        if (count == 0) {
+            sb.append("No tasks match your search.");
+        }
+        return sb.toString();
+    }
+
 }

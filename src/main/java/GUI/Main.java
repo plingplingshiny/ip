@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -106,10 +106,16 @@ public class Main extends Application {
         );
         userInput.clear();
 
+
         // If user typed "bye", close after showing goodbye message
         if (userText.trim().equalsIgnoreCase("bye")) {
-            // Delay closing slightly so user sees the goodbye message
-            javafx.application.Platform.exit();
+            // Use PauseTransition for delayed closing (non-blocking)
+            javafx.animation.PauseTransition delay = new
+                    javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.5));
+            delay.setOnFinished(event -> {
+                javafx.application.Platform.exit();
+            });
+            delay.play();
         }
     }
 }

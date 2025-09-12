@@ -24,11 +24,14 @@ public class Main extends Application {
     private Scene scene;
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
     private Image nilaImage = new Image(this.getClass().getResourceAsStream("/images/Nila.png"));
-    private Nila nila = new Nila("../../../../data/nila.txt");
+    private Nila nila = new Nila("./data/nila.txt");
 
     @Override
     public void start(Stage stage) {
         //Setting up required components
+
+        // Load tasks explicitly
+        nila.loadTasksFromStorage();
 
         scrollPane = new ScrollPane();
         dialogContainer = new VBox();
@@ -111,7 +114,7 @@ public class Main extends Application {
         if (userText.trim().equalsIgnoreCase("bye")) {
             // Use PauseTransition for delayed closing (non-blocking)
             javafx.animation.PauseTransition delay = new
-                    javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.5));
+                    javafx.animation.PauseTransition(javafx.util.Duration.seconds(0.6));
             delay.setOnFinished(event -> {
                 javafx.application.Platform.exit();
             });

@@ -2,7 +2,6 @@
 package nila;
 import nila.parser.Parser;
 import nila.storage.Storage;
-import nila.tasks.Task;
 import nila.tasks.TaskManager;
 import nila.ui.UI;
 
@@ -13,7 +12,6 @@ public class Nila {
     private Storage storage;
     private TaskManager taskList;
     private UI ui;
-    private boolean isFirstInput = true;
 
     /**
      * Constructs a {@code Nila} chatbot instance with the specified storage file.
@@ -92,7 +90,7 @@ public class Nila {
             case BYE:
                 return "Goodbye!";
             case UNKNOWN:
-                return "Sorry, I don’t understand: " + rawInput;
+                return "Sorry, I don't understand: " + rawInput;
             default:
                 return "";
             }
@@ -112,5 +110,19 @@ public class Nila {
      */
     public String getGoodbye() {
         return "Bye!\uD83D\uDC4B Hope to see you again soon!";
+    }
+
+    /**
+     * Load tasks from the storage file into a new {@link TaskManager}.
+     */
+    public void loadTasksFromStorage() {
+        taskList = storage.loadTasks();
+    }
+
+    /**
+     * Saves all tasks from the {@link TaskManager} into the storage file.
+     */
+    public void saveTasksToStorage() {
+        storage.saveTasks(taskList);
     }
 }

@@ -8,15 +8,15 @@ import java.time.format.DateTimeParseException;
  * Represents a general task with a description and completion status.
  */
 public class Task {
-    private static boolean isDone;
     protected String task;
+    private boolean isDone;
 
     Task(String taskName) {
         task = taskName;
         isDone = false;
     }
 
-    public static boolean getIsDone() {
+    public boolean getIsDone() {
         return isDone;
     }
 

@@ -81,6 +81,7 @@ public class TaskManager {
      * @param file the file to save tasks to
      */
     void saveTasksToFile(File file) {
+        assert file != null : "File cannot be null";
         try (FileWriter writer = new FileWriter(file)) {
             for (Task t : things) {
                 writer.write(t.toSaveFormat() + "\n");
@@ -148,6 +149,8 @@ public class TaskManager {
      * @return
      */
     public String markDoneAsString(int index) {
+        assert index > 0 : "Index must be positive";
+        assert index <= things.size() : "Index cannot exceed task list size";
         Task t = things.get(index - 1);
         t.markDone();
         saveTasksToFile(new File("./data/nila.txt"));
@@ -160,6 +163,8 @@ public class TaskManager {
      * @return
      */
     public String markNotDoneAsString(int index) {
+        assert index > 0 : "Index must be positive";
+        assert index <= things.size() : "Index cannot exceed task list size";
         Task t = things.get(index - 1);
         t.markNotDone();
         saveTasksToFile(new File("./data/nila.txt"));

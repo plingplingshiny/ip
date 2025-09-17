@@ -57,32 +57,48 @@ public class Task {
      * @return the reconstructed {@code Task} object
      */
     public static Task fromSaveFormat(String line) {
-        String[] curLine = line.split("\\|");
-        String command = curLine[0];
-        boolean isDone = curLine[1].trim().equals("1");
-        String description = curLine[2];
-        Task savedTask;
-        if (command.equals("T")) {
-            savedTask = new Todo(description);
-        } else if (command.equals("D")) {
-            String savedDate = curLine[3];
-            try {
-                LocalDateTime dt = LocalDateTime.parse(savedDate);
-                savedTask = new Deadline(description, dt);
-            } catch (DateTimeParseException e1) {
-                LocalDate d = LocalDate.parse(savedDate);
-                savedTask = new Deadline(description, d);
-            }
-        } else {
-            String from = curLine[3];
-            String to = curLine[4];
-            LocalDateTime start = LocalDateTime.parse(from);
-            LocalDateTime end = LocalDateTime.parse(to);
-            savedTask = new Event(description, start, end);
-        }
+        String[] components = line.split("\\|");
+        String taskType = components[0];
+        boolean isDone = components[1].trim().equals("1");
+        String description = components[2];
+
+        Task task = createTaskFromType(taskType, components, description);
+
         if (isDone) {
-            savedTask.markDone();
+            task.markDone();
         }
-        return savedTask;
+        return task;
+    }
+
+    private static Task createTaskFromType(String taskType, String[] components, String description) {
+        switch (taskType) {
+        case "T":
+            return new Todo(description);
+        case "D":
+            return createDeadlineTask(components, description);
+        case "E":
+            return createEventTask(components, description);
+        default:
+            throw new IllegalArgumentException("Unknown task type: " + taskType);
+        }
+    }
+
+    private static Task createDeadlineTask(String[] components, String description) {
+        String savedDate = components[3];
+        try {
+            LocalDateTime dt = LocalDateTime.parse(savedDate);
+            return new Deadline(description, dt);
+        } catch (DateTimeParseException e) {
+            LocalDate d = LocalDate.parse(savedDate);
+            return new Deadline(description, d);
+        }
+    }
+
+    private static Task createEventTask(String[] components, String description) {
+        String from = components[3];
+        String to = components[4];
+        LocalDateTime start = LocalDateTime.parse(from);
+        LocalDateTime end = LocalDateTime.parse(to);
+        return new Event(description, start, end);
     }
 }

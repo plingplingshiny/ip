@@ -99,60 +99,115 @@ public class Nila {
     }
 
     /**
-     * Returns a help message for GUI display
-     * @return a help manual listing all the commands, their uses and format
+     * Returns a help manual for GUI display
+     * AI-Assisted Improvements: This help manual was refined with
+     * assistance from AI for improved formatting, readability, and user experience.
+     * Content and functionality remain original work.
+     * Date: [17 Sep 2025]
+     * @return a help manual listing all commands, their uses and format
      */
     public String displayHelp() {
-        StringBuilder sb = new StringBuilder("\u2753HELP MANUAL\n");
-        sb.append(displayListHelp()).append(displayTaskHelp());
-        sb.append(displayMarkHelp()).append(displayUnmarkHelp()).append(displayDeleteHelp());
-        sb.append(displayFindHelp()).append(displayByeHelp());
-        sb.append("HELP\ndisplay this help manual\n\n"
-                + "Format: help");
-        return sb.toString();
+        return """
+               \u2753 HELP MANUAL \u2753\n
+               %s
+               %s
+               %s
+               %s
+               %s
+               %s
+               %s
+               %s
+               """.formatted(displayListHelp(),
+                displayTaskHelp(),
+                displayMarkHelp(),
+                displayUnmarkHelp(),
+                displayDeleteHelp(),
+                displayFindHelp(),
+                displayByeHelp(),
+                displayHelpCommand()
+        );
     }
 
     private String displayListHelp() {
-        return "\nLIST\n • shows a list of tasks added\n\n"
-                + "Format: list\n\n";
+        return """
+                📋 LIST
+                 • shows a list of tasks added\n
+                Format: list\n
+                """;
     }
 
     private String displayTaskHelp() {
-        return "TASKS\n • we have 3 different task types: Todo, Deadline, Event\n\n"
-                + "TODO\n • adds a todo task without any date/time attached to it\n\n"
-                + "Format:\n • todo <description>\n ➡ e.g. todo read book\n\n"
-                + "DEADLINE\n • adds a deadline task that needs to be done before a specific date/time\n\n"
-                + "Format:\n • deadline <description> /by <yyyy-MM-dd>\n"
-                + " • deadline <description> /by <yyyy-MM-dd HHmm>\n"
-                + " ➡ e.g. deadline return book /by 2025-09-09 1400\n\n"
-                + "EVENT\n • adds an event task that start at a specific date/time and ends at a specific date/time\n\n"
-                + "Format:\n • event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n"
-                + " • event <description /from <yyyy-MM-dd HHmm> /to <yyyy-MM-dd HHmm>\n"
-                + " ➡ e.g. event party /from 2025-12-12 1700 /to 2025-12-12 2100\n\n";
+        return """
+                📝 TASKS
+                 • we have 3 different task types: Todo, Deadline, Event\n
+                ✅ TODO
+                 • adds a todo task without any date/time attached to it\n
+                Format: todo <description>
+                Example: todo read book\n
+                ⏰ DEADLINE
+                 • adds a deadline task that needs to be done before a specific date/time\n
+                Format:
+                 • deadline <description> /by <yyyy-MM-dd>
+                 • deadline <description> /by <yyyy-MM-dd HHmm>
+                Example: deadline return book /by 2025-09-09 1400\n
+                🎉 EVENT
+                 • adds an event task that start at a specific date/time and ends at a specific date/time\n
+                Format:
+                 • event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+                 • event <description /from <yyyy-MM-dd HHmm> /to <yyyy-MM-dd HHmm>
+                Example: event party /from 2025-12-12 1700 /to 2025-12-12 2100\n
+                """;
     }
 
     private String displayMarkHelp() {
-        return "MARK\n • mark a task as done using its respective index number in the list of tasks\n\n"
-                + "Format:\n • mark <index>\n ➡ e.g. mark 1\n\n";
+        return """
+                ✔ MARK
+                 • mark a task as done using its respective index number in the list of tasks\n
+                Format: mark <index>
+                Example: mark 1\n
+                """;
     }
 
     private String displayUnmarkHelp() {
-        return "UNMARK\n • unmark a task as not done using its respective index number in the list of tasks\n\n"
-                + "Format:\n • unmark <index>\n ➡ e.g. unmark 2\n\n";
+        return """
+                🔄 UNMARK
+                 • unmark a task as not done using its respective index number in the list of tasks\n
+                Format: unmark <index>
+                Example: unmark 2\n
+                """;
     }
 
     private String displayDeleteHelp() {
-        return "DELETE\n • delete a task from the list of tasks using its respective index number\n\n"
-                + "Format:\n • delete <index>\n ➡ e.g. delete 1\n\n";
+        return """
+                🗑 DELETE
+                 • delete a task from the list of tasks using its respective index number\n
+                Format: delete <index>
+                Example: delete 1\n
+                """;
     }
 
     private String displayFindHelp() {
-        return "FIND\n • find a task by searching for a keyword in the task description\n\n"
-                + "Format:\n • find <keyword>\n ➡ e.g. find book\n\n";
+        return """
+                🔍 FIND
+                 • find a task by searching for a keyword in the task description\n
+                Format: find <keyword>
+                Example: find book\n
+                """;
     }
 
     private String displayByeHelp() {
-        return "BYE\n • exit and close chatbot\n\n"
-                + "Format: bye\n\n";
+        return """
+                👋 BYE
+                 • exit and close chatbot\n
+                Format: bye\n
+                """;
+    }
+
+    private String displayHelpCommand() {
+        return """
+                ❓ HELP
+                 • display this help manual\n
+                Format: help
+                """;
     }
 }

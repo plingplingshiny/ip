@@ -7,7 +7,13 @@ import java.time.format.DateTimeParseException;
 
 import nila.Nila;
 import nila.NilaException;
-import nila.tasks.*;
+import nila.ValidationUtils;
+import nila.tasks.Deadline;
+import nila.tasks.Event;
+import nila.tasks.Task;
+import nila.tasks.TaskManager;
+import nila.tasks.Todo;
+
 
 /**
  * The {@code Parser} class is responsible for interpreting user input
@@ -54,27 +60,40 @@ public class Parser {
      * @throws NilaException if the description is empty or the time format is invalid
      */
     public static Task parseDeadline(String args) throws NilaException {
-        String[] deadlineParts = args.split("/by", 2);
+        String[] deadlineParts = validateAndSplitDeadlineArgs(args);
         String description = deadlineParts[0].trim();
-        if (description.isEmpty()) {
-            throw new NilaException("OOPS!!! Description of task cannot be empty!");
-        }
-        if (deadlineParts.length < 2 || deadlineParts[1].trim().isEmpty()) {
-            throw new NilaException("OOPS!!! A deadline must have a /by time!");
-        }
         String deadline = deadlineParts[1].trim();
+
+        ValidationUtils.validateDescription(description);
+
         try {
-            LocalDateTime dt = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-            return new Deadline(description, dt);
+            return createDeadlineWithDateTime(description, deadline);
         } catch (DateTimeParseException e1) {
             try {
-                LocalDate d = LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                return new Deadline(description, d);
+                return createDeadlineWithDate(description, deadline);
             } catch (DateTimeParseException e2) {
                 throw new NilaException("OOPS!!! Please enter the deadline in yyyy-MM-dd or "
                         + "yyyy-MM-dd HHmm format!");
             }
         }
+    }
+
+    private static String[] validateAndSplitDeadlineArgs(String args) throws NilaException {
+        String[] deadlineParts = args.split("/by", 2);
+        if (deadlineParts.length < 2 || deadlineParts[1].trim().isEmpty()) {
+            throw new NilaException("OOPS!!! A deadline must have a /by time!");
+        }
+        return deadlineParts;
+    }
+
+    private static Task createDeadlineWithDateTime(String description, String deadline) throws DateTimeParseException {
+        LocalDateTime dt = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        return new Deadline(description, dt);
+    }
+
+    private static Task createDeadlineWithDate(String description, String deadline) throws DateTimeParseException {
+        LocalDate d = LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return new Deadline(description, d);
     }
 
     /**
@@ -84,25 +103,37 @@ public class Parser {
      * @throws NilaException if description is empty or timings are missing or invalid
      */
     public static Task parseEvent(String args) throws NilaException {
-        if (!args.contains("/from") || !args.contains("/to")) {
-            throw new NilaException("OOPS!!! An event must have /from and /to timings.");
-        }
+        validateEventFormat(args);
+
         String[] fromParts = args.split("/from", 2);
         String description = fromParts[0].trim();
-        if (description.isEmpty()) {
-            throw new NilaException("OOPS!!! Description of task cannot be empty!");
-        }
+        ValidationUtils.validateDescription(description);
         String[] toParts = fromParts[1].split("/to", 2);
-        if (toParts.length < 2 || toParts[0].trim().isEmpty() || toParts[1].trim().isEmpty()) {
+        validateTimings(toParts);
+
+        return parseEventTimings(description, toParts);
+    }
+
+    private static void validateEventFormat(String args) throws NilaException {
+        if (!args.contains("/from") || !args.contains("/to")) {
             throw new NilaException("OOPS!!! An event must have both start and end timings.");
         }
+    }
+
+    private static void validateTimings(String[] toParts) throws NilaException {
+        if (toParts.length < 2 || toParts[0].trim().isEmpty() || toParts[1].trim().isEmpty()) {
+            throw new NilaException("OOPS!!! An event must have both start and end timings");
+        }
+    }
+
+    private static Task parseEventTimings(String description, String[] toParts) throws NilaException {
         DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
         try {
             LocalDateTime startDT = LocalDateTime.parse(toParts[0].trim(), inputFmt);
             LocalDateTime endDT = LocalDateTime.parse(toParts[1].trim(), inputFmt);
             return new Event(description, startDT, endDT);
         } catch (DateTimeParseException e) {
-            throw new NilaException("OOPS!!! Please enter start and end in yyyy-MM-dd HHmm format.");
+            throw new NilaException("OOPS!!! Please enter start and end in yyyy-MM-dd HHmm format!");
         }
     }
 
@@ -114,7 +145,7 @@ public class Parser {
      */
     public static String parseFind(String args) throws NilaException {
         if (args == null || args.trim().isEmpty()) {
-            throw new NilaException("OOPS!!! You must provide a keyword to search for!");
+            ValidationUtils.validateNotEmpty(args, "Search keyword");
         }
         return args;
     }

@@ -81,7 +81,7 @@ public class TaskManager {
      * @return a confirmation message containing the marked task
      */
     public String markDoneAsString(int index) {
-        assert index <= things.size() : "Index cannot exceed task list size";
+        assert index <= tasks.size() : "Index cannot exceed task list size";
         Task t = tasks.get(index - 1);
         t.markDone();
         saveTasksToFile(new File("./data/nila.txt"));
@@ -94,7 +94,7 @@ public class TaskManager {
      * @return a confirmation message containing the unmarked task
      */
     public String markNotDoneAsString(int index) {
-        assert index <= things.size() : "Index cannot exceed task list size";
+        assert index <= tasks.size() : "Index cannot exceed task list size";
         Task t = tasks.get(index - 1);
         t.markNotDone();
         saveTasksToFile(new File("./data/nila.txt"));

@@ -12,8 +12,6 @@ public class Task {
     private boolean isDone;
 
     Task(String taskName) {
-        assert taskName != null : "Task name cannot be null";
-        assert !taskName.trim().isEmpty() : "Task name cannot be empty";
         task = taskName;
         isDone = false;
     }

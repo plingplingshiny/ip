@@ -69,7 +69,6 @@ public class Nila {
 
 
     private String executeCommand(Command command, String remaining, String rawInput) {
-        assert command != null : "Command cannot be null";
         try {
             switch (command) {
             case LIST:

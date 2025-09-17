@@ -60,6 +60,7 @@ public class Parser {
      * @throws NilaException if the description is empty or the time format is invalid
      */
     public static Task parseDeadline(String args) throws NilaException {
+        assert args != null : "Arguments cannot be null";
         String[] deadlineParts = validateAndSplitDeadlineArgs(args);
         String description = deadlineParts[0].trim();
         String deadline = deadlineParts[1].trim();
@@ -103,8 +104,8 @@ public class Parser {
      * @throws NilaException if description is empty or timings are missing or invalid
      */
     public static Task parseEvent(String args) throws NilaException {
+        assert args != null : "Arguments cannot be null";
         validateEventFormat(args);
-
         String[] fromParts = args.split("/from", 2);
         String description = fromParts[0].trim();
         ValidationUtils.validateDescription(description);

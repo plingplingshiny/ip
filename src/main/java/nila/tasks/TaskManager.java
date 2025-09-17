@@ -29,6 +29,7 @@ public class TaskManager {
      * @param file the file to save tasks to
      */
     void saveTasksToFile(File file) {
+        assert file != null : "File cannot be null";
         try (FileWriter writer = new FileWriter(file)) {
             for (Task t : tasks) {
                 writer.write(t.toSaveFormat() + "\n");
@@ -46,8 +47,11 @@ public class TaskManager {
     }
 
     /**
-     * Prints all tasks in the list in numbered order
-     * @return a list of task as a String
+     * Returns a formatted string representation of all tasks in the list.
+     * Each task is numbered sequentially. If the task list is empty,
+     * returns a message indicating no tasks are present.
+     * @return a formatted string listing all tasks, or a message indicating
+     *     the task list is empty if no tasks exist.
      */
     public String listTasksAsString() {
         if (tasks.isEmpty()) {
@@ -61,9 +65,9 @@ public class TaskManager {
     }
 
     /**
-     * Adds a task to the list.
+     * Adds a task to the task list and saves the updated list to file.
      * @param task the task to be added
-     * @return a String to inform user that the task was successfully added
+     * @return a confirmation message containing the added task
      */
     public String addTaskAsString(Task task) {
         tasks.add(task);
@@ -72,11 +76,12 @@ public class TaskManager {
     }
 
     /**
-     * Marks a task as done.
+     * Marks a task as done and saves the change.
      * @param index the 1-based index of the task to mark as done
-     * @return a String to inform user that the task was successfully marked
+     * @return a confirmation message containing the marked task
      */
     public String markDoneAsString(int index) {
+        assert index <= things.size() : "Index cannot exceed task list size";
         Task t = tasks.get(index - 1);
         t.markDone();
         saveTasksToFile(new File("./data/nila.txt"));
@@ -84,11 +89,12 @@ public class TaskManager {
     }
 
     /**
-     * Marks a task as not done.
+     * Marks a task as not done and saves the change.
      * @param index the 1-based index of the task to mark as not done
-     * @return a String to inform user that the task was successfully unmarked
+     * @return a confirmation message containing the unmarked task
      */
     public String markNotDoneAsString(int index) {
+        assert index <= things.size() : "Index cannot exceed task list size";
         Task t = tasks.get(index - 1);
         t.markNotDone();
         saveTasksToFile(new File("./data/nila.txt"));
@@ -96,9 +102,9 @@ public class TaskManager {
     }
 
     /**
-     * Removes a task from the list.
+     * Removes a task from the list and saves the updated list.
      * @param index the 1-based index of the task to remove
-     * @return a String to inform user that the task was deleted
+     * @return a confirmation message containing the deleted task
      */
     public String removeTaskAsString(int index) {
         Task removed = tasks.remove(index - 1);
@@ -107,9 +113,11 @@ public class TaskManager {
     }
 
     /**
-     * Finds and prints tasks whose descriptions contain the given keyword.
-     * @param keyword the keyword to search for
-     * @return tasks that contain the keyword in their description
+     * Searches for tasks whose descriptions contain the given keyword
+     * (case-insensitive) and returns a formatted list of matching tasks.
+     * @param keyword the search term to match against task descriptions
+     * @return a formatted string containing matching tasks, or a message
+     *         indicating no matches were found
      */
     public String findTasksAsString(String keyword) {
         StringBuilder sb = new StringBuilder("Matching tasks:\n");

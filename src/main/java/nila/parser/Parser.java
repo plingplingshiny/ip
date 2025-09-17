@@ -60,6 +60,8 @@ public class Parser {
      * @throws NilaException if the description is empty or the time format is invalid
      */
     public static Task parseDeadline(String args, UI ui) throws NilaException {
+        assert ui != null : "UI instance cannot be null";
+        assert args != null : "Arguments cannot be null";
         String[] deadlineParts = args.split("/by", 2);
         String description = deadlineParts[0].trim();
         if (description.isEmpty()) {
@@ -91,6 +93,8 @@ public class Parser {
      * @throws NilaException if description is empty or timings are missing or invalid
      */
     public static Task parseEvent(String args, UI ui) throws NilaException {
+        assert ui != null : "UI instance cannot be null";
+        assert args != null : "Arguments cannot be null";
         if (!args.contains("/from") || !args.contains("/to")) {
             throw new NilaException("OOPS!!! An event must have /from and /to timings.");
         }

@@ -45,7 +45,7 @@ public class UI {
     }
 
     /**
-     * * Reads the next command word entered by the user.
+     * Reads the next command word entered by the user.
      * @return the command string in lower case
      */
     public String readCommand() {

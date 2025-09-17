@@ -40,35 +40,41 @@ public class Nila {
 
     private String executeCommand(Command command, String remaining, String rawInput) {
         try {
-            switch (command) {
-            case LIST:
-                return taskList.listTasksAsString();
-            case MARK:
-                int markIndex = Parser.parseMarkIndex(remaining, taskList);
-                return taskList.markDoneAsString(markIndex);
-            case UNMARK:
-                int unmarkIndex = Parser.parseUnmarkIndex(remaining, taskList);
-                return taskList.markNotDoneAsString(unmarkIndex);
-            case DELETE:
-                int deleteIndex = Parser.parseDeleteIndex(remaining, taskList);
-                return taskList.removeTaskAsString(deleteIndex);
-            case TODO:
-                return taskList.addTaskAsString(Parser.parseTodo(remaining));
-            case DEADLINE:
-                return taskList.addTaskAsString(Parser.parseDeadline(remaining));
-            case EVENT:
-                return taskList.addTaskAsString(Parser.parseEvent(remaining));
-            case FIND:
-                return taskList.findTasksAsString(Parser.parseFind(remaining));
-            case BYE:
-                return "Goodbye!";
-            case UNKNOWN:
-                return "Sorry, I don't understand: " + rawInput;
-            default:
-                return "";
-            }
+            return executeValidCommand(command, remaining, rawInput);
+        } catch (NilaException e) {
+            return e.getMessage();
         } catch (Exception e) {
             return "Error: " + e.getMessage();
+        }
+    }
+
+    private String executeValidCommand(Command command, String remaining, String rawInput) throws NilaException {
+        switch (command) {
+        case LIST:
+            return taskList.listTasksAsString();
+        case MARK:
+            int markIndex = Parser.parseMarkIndex(remaining, taskList);
+            return taskList.markDoneAsString(markIndex);
+        case UNMARK:
+            int unmarkIndex = Parser.parseUnmarkIndex(remaining, taskList);
+            return taskList.markNotDoneAsString(unmarkIndex);
+        case DELETE:
+            int deleteIndex = Parser.parseDeleteIndex(remaining, taskList);
+            return taskList.removeTaskAsString(deleteIndex);
+        case TODO:
+            return taskList.addTaskAsString(Parser.parseTodo(remaining));
+        case DEADLINE:
+            return taskList.addTaskAsString(Parser.parseDeadline(remaining));
+        case EVENT:
+            return taskList.addTaskAsString(Parser.parseEvent(remaining));
+        case FIND:
+            return taskList.findTasksAsString(Parser.parseFind(remaining));
+        case BYE:
+            return "Goodbye!";
+        case UNKNOWN:
+            return "Sorry, I don't understand: " + rawInput;
+        default:
+            return "";
         }
     }
 

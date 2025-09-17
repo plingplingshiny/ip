@@ -1,7 +1,6 @@
 package nila.storage;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -15,8 +14,9 @@ public class Storage {
     private final File file;
 
     /**
-     * aa
-     * @param filePath aa
+     * Constructs a Storage instance with the specified file path.
+     * Creates the necessary directories and file if they do not exist.
+     * @param filePath the path to the file where tasks will be stored and loaded from
      */
     public Storage(String filePath) {
         file = new File(filePath);
@@ -38,20 +38,6 @@ public class Storage {
     }
 
     /**
-     * Saves all tasks from the {@link TaskManager} into the storage file.
-     * @param taskList The {@code TaskManager} containing tasks to be saved
-     */
-    public void saveTasks(TaskManager taskList) {
-        try (FileWriter fw = new FileWriter(file)) {
-            for (Task task : taskList.getTasks()) {
-                fw.write(task.toSaveFormat() + System.lineSeparator());
-            }
-        } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
-        }
-    }
-
-    /**
      * Load tasks from the storage file into a new {@link TaskManager}.
      * Each link in the file is converted back into a {@link Task}.
      * @return A {@code TaskManager} containing all loaded tasks.
@@ -59,15 +45,22 @@ public class Storage {
     public TaskManager loadTasks() {
         TaskManager taskList = new TaskManager();
         try (Scanner sc = new Scanner(file)) {
-            System.out.println("Existing Tasks:");
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                Task task = Task.fromSaveFormat(line);
-                taskList.addTask(task);
-            }
+            loadTasksFromScanner(sc, taskList);
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
         return taskList;
+    }
+
+    private void loadTasksFromScanner(Scanner sc, TaskManager taskList) {
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            try {
+                Task task = Task.fromSaveFormat(line);
+                taskList.addTask(task);
+            } catch (Exception e) {
+                System.out.println("Error parsing task from line: " + line + " - " + e.getMessage());
+            }
+        }
     }
 }

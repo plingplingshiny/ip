@@ -30,9 +30,6 @@ public class Main extends Application {
     public void start(Stage stage) {
         //Setting up required components
 
-        // Load tasks explicitly
-        nila.loadTasksFromStorage();
-
         scrollPane = new ScrollPane();
         dialogContainer = new VBox();
         scrollPane.setContent(dialogContainer);

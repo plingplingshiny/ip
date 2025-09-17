@@ -7,11 +7,7 @@ import java.time.format.DateTimeParseException;
 
 import nila.Nila;
 import nila.NilaException;
-import nila.tasks.Deadline;
-import nila.tasks.Event;
-import nila.tasks.Task;
-import nila.tasks.Todo;
-import nila.ui.UI;
+import nila.tasks.*;
 
 /**
  * The {@code Parser} class is responsible for interpreting user input
@@ -41,13 +37,12 @@ public class Parser {
     /**
      * Parses a {@link Todo} task from user input.
      * @param args the description of the todo
-     * @param ui the UI instance used to provide error messages
      * @return a {@link Todo} task
      * @throws NilaException if the description is empty
      */
-    public static Task parseTodo(String args, UI ui) throws NilaException {
-        if (args.isEmpty()) {
-            throw ui.emptyTaskDescription();
+    public static Task parseTodo(String args) throws NilaException {
+        if (args == null || args.trim().isEmpty()) {
+            throw new NilaException("OOPS!!! Description of task cannot be empty!");
         }
         return new Todo(args);
     }
@@ -55,15 +50,14 @@ public class Parser {
     /**
      * Parses a {@link Deadline} task from user input.
      * @param args the raw string containing description and deadline
-     * @param ui the UI instance used to provide error messages
      * @return a {@link Deadline} task
      * @throws NilaException if the description is empty or the time format is invalid
      */
-    public static Task parseDeadline(String args, UI ui) throws NilaException {
+    public static Task parseDeadline(String args) throws NilaException {
         String[] deadlineParts = args.split("/by", 2);
         String description = deadlineParts[0].trim();
         if (description.isEmpty()) {
-            throw ui.emptyTaskDescription();
+            throw new NilaException("OOPS!!! Description of task cannot be empty!");
         }
         if (deadlineParts.length < 2 || deadlineParts[1].trim().isEmpty()) {
             throw new NilaException("OOPS!!! A deadline must have a /by time!");
@@ -77,7 +71,7 @@ public class Parser {
                 LocalDate d = LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 return new Deadline(description, d);
             } catch (DateTimeParseException e2) {
-                throw new NilaException("OOPS!!! Please enter the deadline in yyyy-MM-dd or"
+                throw new NilaException("OOPS!!! Please enter the deadline in yyyy-MM-dd or "
                         + "yyyy-MM-dd HHmm format!");
             }
         }
@@ -86,18 +80,17 @@ public class Parser {
     /**
      * Parses and {@link Event} task from user input.
      * @param args the raw string containing description, start and end times
-     * @param ui the UI instance used to provide error messages
      * @return an {link Event} task
      * @throws NilaException if description is empty or timings are missing or invalid
      */
-    public static Task parseEvent(String args, UI ui) throws NilaException {
+    public static Task parseEvent(String args) throws NilaException {
         if (!args.contains("/from") || !args.contains("/to")) {
             throw new NilaException("OOPS!!! An event must have /from and /to timings.");
         }
         String[] fromParts = args.split("/from", 2);
         String description = fromParts[0].trim();
         if (description.isEmpty()) {
-            throw ui.emptyTaskDescription();
+            throw new NilaException("OOPS!!! Description of task cannot be empty!");
         }
         String[] toParts = fromParts[1].split("/to", 2);
         if (toParts.length < 2 || toParts[0].trim().isEmpty() || toParts[1].trim().isEmpty()) {
@@ -116,14 +109,79 @@ public class Parser {
     /**
      * Parses a find command.
      * @param args the remaining string after 'find'
-     * @param ui UI for error messages
      * @return the keyword to search for
      * @throws NilaException if no keyword is provided
      */
-    public static String parseFind(String args, UI ui) throws NilaException {
-        if (args.isEmpty()) {
-            throw new NilaException("");
+    public static String parseFind(String args) throws NilaException {
+        if (args == null || args.trim().isEmpty()) {
+            throw new NilaException("OOPS!!! You must provide a keyword to search for!");
         }
         return args;
+    }
+
+    /**
+     * Parses and validates a task index for mark, unmark, and delete commands.
+     * @param args the remaining string after the command
+     * @param taskList the task list to validate against current task count
+     * @param commandType the type of command for error message context
+     * @return the 1-based parsed and validated task index
+     * @throws NilaException if the input is invalid, empty or out of bounds
+     */
+    public static int parseTaskIndex(String args, TaskManager taskList, String commandType) throws NilaException {
+        if (args == null || args.trim().isEmpty()) {
+            throw new NilaException("OOPS!!! Please provide a task number to " + commandType + "!");
+        }
+
+        try {
+            int index = Integer.parseInt(args.trim());
+            int taskCount = taskList.getTasks().size();
+            if (index < 1) {
+                throw new NilaException("OOPS!!! Task number must be positive!");
+            }
+
+            if (index > taskCount) {
+                if (taskCount == 0) {
+                    throw new NilaException("OOPS!!! You have no tasks to " + commandType + "!");
+                } else {
+                    throw new NilaException("OOPS!!! Task number " + index + " does not exist!");
+                }
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new NilaException("OOPS!!! Please provide a valid number to " + commandType + "!");
+        }
+    }
+
+    /**
+     * Parses and validates a task index for mark command.
+     * @param args the remaining string after 'mark'
+     * @param taskList the task list to validate against
+     * @return the parsed and validated task index
+     * @throws NilaException if the input is invalid
+     */
+    public static int parseMarkIndex(String args, TaskManager taskList) throws NilaException {
+        return parseTaskIndex(args, taskList, "mark");
+    }
+
+    /**
+     * Parses and validates a task index for unmark command.
+     * @param args the remaining string after 'unmark'
+     * @param taskList the task list to validate against
+     * @return the parsed and validated task index
+     * @throws NilaException if the input is invalid
+     */
+    public static int parseUnmarkIndex(String args, TaskManager taskList) throws NilaException {
+        return parseTaskIndex(args, taskList, "unmark");
+    }
+
+    /**
+     * Parses and validates a task index for delete command.
+     * @param args the remaining string after 'delete'
+     * @param taskList the task list to validate against
+     * @return the parsed and validated task index
+     * @throws NilaException is the input is invalid
+     */
+    public static int parseDeleteIndex(String args, TaskManager taskList) throws NilaException {
+        return parseTaskIndex(args, taskList, "delete");
     }
 }

@@ -3,7 +3,6 @@ package nila;
 import nila.parser.Parser;
 import nila.storage.Storage;
 import nila.tasks.TaskManager;
-import nila.ui.UI;
 
 /**
  * The {@code Nila} class represents the main entry point of the {@code Nila} chatbot application.
@@ -11,43 +10,14 @@ import nila.ui.UI;
 public class Nila {
     private Storage storage;
     private TaskManager taskList;
-    private UI ui;
 
     /**
      * Constructs a {@code Nila} chatbot instance with the specified storage file.
      * @param filePath the path to the file where tasks are stored
      */
     public Nila(String filePath) {
-        ui = new UI();
         storage = new Storage(filePath);
-        ui.showGreeting("Nila");
         taskList = storage.loadTasks();
-        ui.printLine();
-    }
-
-    /**
-     * Runs the main loop of the {@code Nila} chatbot
-     */
-    public void run() {
-        ui.showGreeting("Nila");
-        String input = ui.readCommand() + " " + ui.readRemaining();
-
-        while (!input.equalsIgnoreCase("bye")) {
-            ui.printLine();
-            String response = getResponse(input);
-            System.out.println(response);
-            ui.printLine();
-
-            input = ui.readCommand() + " " + ui.readRemaining();
-        }
-
-        ui.showGoodbye(this);
-        ui.close();
-    }
-
-
-    public static void main(String[] args) throws NilaException {
-        new Nila("./data/nila.txt").run();
     }
 
     /**
@@ -74,19 +44,22 @@ public class Nila {
             case LIST:
                 return taskList.listTasksAsString();
             case MARK:
-                return taskList.markDoneAsString(Integer.parseInt(remaining));
+                int markIndex = Parser.parseMarkIndex(remaining, taskList);
+                return taskList.markDoneAsString(markIndex);
             case UNMARK:
-                return taskList.markNotDoneAsString(Integer.parseInt(remaining));
+                int unmarkIndex = Parser.parseUnmarkIndex(remaining, taskList);
+                return taskList.markNotDoneAsString(unmarkIndex);
             case DELETE:
-                return taskList.removeTaskAsString(Integer.parseInt(remaining));
+                int deleteIndex = Parser.parseDeleteIndex(remaining, taskList);
+                return taskList.removeTaskAsString(deleteIndex);
             case TODO:
-                return taskList.addTaskAsString(Parser.parseTodo(remaining, ui));
+                return taskList.addTaskAsString(Parser.parseTodo(remaining));
             case DEADLINE:
-                return taskList.addTaskAsString(Parser.parseDeadline(remaining, ui));
+                return taskList.addTaskAsString(Parser.parseDeadline(remaining));
             case EVENT:
-                return taskList.addTaskAsString(Parser.parseEvent(remaining, ui));
+                return taskList.addTaskAsString(Parser.parseEvent(remaining));
             case FIND:
-                return taskList.findTasksAsString(Parser.parseFind(remaining, ui));
+                return taskList.findTasksAsString(Parser.parseFind(remaining));
             case BYE:
                 return "Goodbye!";
             case UNKNOWN:
@@ -110,19 +83,5 @@ public class Nila {
      */
     public String getGoodbye() {
         return "Bye!\uD83D\uDC4B Hope to see you again soon!";
-    }
-
-    /**
-     * Load tasks from the storage file into a new {@link TaskManager}.
-     */
-    public void loadTasksFromStorage() {
-        taskList = storage.loadTasks();
-    }
-
-    /**
-     * Saves all tasks from the {@link TaskManager} into the storage file.
-     */
-    public void saveTasksToStorage() {
-        storage.saveTasks(taskList);
     }
 }

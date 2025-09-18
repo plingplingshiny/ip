@@ -7,13 +7,23 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nila.Nila;
 
 /**
- * aa
+ * The main application class for the Nila chatbot GUI.
+ * This class initializes and configures the JavaFX user interface,
+ * handling the layout, user input, and display of chat messages
+ * AI-Assisted Improvements: The GUI layout and styling were enhanced with
+ * AI assistance for improved user experience and visual appeal, while
+ * maintaining all original functionality.
  */
 public class Main extends Application {
 
@@ -59,9 +69,11 @@ public class Main extends Application {
 
     private void configureStage(Stage stage) { //Formatting the window to look as expected
         stage.setTitle("Nila");
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.setMinHeight(600.0);
         stage.setMinWidth(400.0);
+        stage.setHeight(600.0);
+        stage.setWidth(400.0);
     }
 
     private void setupLayout() {
@@ -75,17 +87,20 @@ public class Main extends Application {
         scrollPane.setFitToWidth(true);
 
         dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);
-        userInput.setPrefWidth(325.0);
+        userInput.setMaxWidth(Region.USE_COMPUTED_SIZE);
         sendButton.setPrefWidth(55.0);
         setAnchorConstraints();
     }
 
     private void setAnchorConstraints() {
         AnchorPane.setTopAnchor(scrollPane, 1.0);
+        AnchorPane.setLeftAnchor(scrollPane, 1.0);
+        AnchorPane.setRightAnchor(scrollPane, 1.0);
         AnchorPane.setBottomAnchor(sendButton, 1.0);
         AnchorPane.setRightAnchor(sendButton, 1.0);
         AnchorPane.setLeftAnchor(userInput, 1.0);
         AnchorPane.setBottomAnchor(userInput, 1.0);
+        AnchorPane.setRightAnchor(userInput, 1.0);
     }
 
     private void setupEventHandlers() { //Handling user input

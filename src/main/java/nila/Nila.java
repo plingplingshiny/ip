@@ -101,7 +101,7 @@ public class Nila {
     /**
      * Returns a help manual for GUI display
      * AI-Assisted Improvements: This help manual was refined with
-     * assistance from AI for improved formatting, readability, and user experience.
+     * assistance from AI (deepseek) for improved formatting, readability, and user experience.
      * Content and functionality remain original work.
      * Date: [17 Sep 2025]
      * @return a help manual listing all commands, their uses and format

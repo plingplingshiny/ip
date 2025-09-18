@@ -7,11 +7,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,8 +17,9 @@ import nila.Nila;
  * This class initializes and configures the JavaFX user interface,
  * handling the layout, user input, and display of chat messages
  * AI-Assisted Improvements: The GUI layout and styling were enhanced with
- * AI assistance for improved user experience and visual appeal, while
+ * AI assistance (deepseek) for improved user experience and visual appeal, while
  * maintaining all original functionality.
+ * Date: [18 Sep 2025]
  */
 public class Main extends Application {
 

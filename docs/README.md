@@ -1,6 +1,6 @@
 # Nila User Guide
 
-![img.png](productScreenshot.png)
+![img.png](Ui.png)
 
 ## Product Intro
 Nila is a friendly task management chatbot that helps you organize your todos, deadlines, and events.

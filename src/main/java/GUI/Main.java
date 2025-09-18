@@ -6,9 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import nila.Nila;
 
@@ -24,6 +22,7 @@ public class Main extends Application {
     private Scene scene;
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
     private Image nilaImage = new Image(this.getClass().getResourceAsStream("/images/Nila.png"));
+    private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/background.png"));
     private Nila nila = new Nila("./data/nila.txt");
 
     @Override
@@ -34,6 +33,7 @@ public class Main extends Application {
         setupLayout();
         setupEventHandlers();
         setupScrollBehaviour();
+        setupBackground();
     }
 
     private void initializeComponents() { //Setting up required components
@@ -59,16 +59,18 @@ public class Main extends Application {
 
     private void configureStage(Stage stage) { //Formatting the window to look as expected
         stage.setTitle("Nila");
-        stage.setResizable(false);
-        stage.setMinHeight(600.0);
-        stage.setMinWidth(400.0);
+        stage.setResizable(true);
+        stage.setMinHeight(700.0);
+        stage.setMinWidth(500.0);
+        stage.setHeight(700.0);
+        stage.setWidth(500.0);
     }
 
     private void setupLayout() {
         AnchorPane mainLayout = (AnchorPane) scene.getRoot();
-        mainLayout.setPrefSize(400.0, 600.0);
+        mainLayout.setPrefSize(500.0, 700.0);
 
-        scrollPane.setPrefSize(385, 535);
+        scrollPane.setPrefSize(485, 635);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setVvalue(1.0);
@@ -100,6 +102,21 @@ public class Main extends Application {
     private void setupScrollBehaviour() {
         //Scroll down to the end every time dialogContainer's height changes.
         dialogContainer.heightProperty().addListener((observable) -> scrollPane.setVvalue(1.0));
+    }
+
+    private void setupBackground() {
+        AnchorPane mainLayout = (AnchorPane) scene.getRoot();
+        try {
+            BackgroundImage bgImage = new BackgroundImage(backgroundImage,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(100, 100, true, true,
+                            false, true));
+            mainLayout.setBackground(new Background(bgImage));
+        } catch (Exception e) {
+            mainLayout.setStyle("-fx-background-color: linear-gradient(to bottom, #e3f2fd, #bbdefb);");
+        }
     }
 
     /**
